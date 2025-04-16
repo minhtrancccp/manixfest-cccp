@@ -1,0 +1,33 @@
+;; https://github.com/dreamsofcode-io/dotfiles/blob/a3da2687f7a9ef575c3a54042c4cc3a7b066f04f/nix/configuration.nix#L199-L222
+
+(defcfg
+	process-unmapped-keys yes
+)
+
+(defsrc
+	;; https://github.com/jtroo/kanata/blob/f153fd0c549befada4f0c544b8e5bba4c2d010ad/parser/src/keys/mod.rs#L164-L373
+	;; https://github.com/jtroo/kanata/discussions/686
+	caps	a	s	d	f	j	k	l	scln
+)
+
+(defvar
+	tap-time 200
+	hold-time 200
+)
+
+(defalias
+	caps (tap-hold $tap-time $hold-time esc ctl)
+	a (tap-hold $tap-time $hold-time a met)
+	s (tap-hold $tap-time $hold-time s alt)
+	d (tap-hold $tap-time $hold-time d sft)
+	f (tap-hold $tap-time $hold-time f ctl)
+	j (tap-hold $tap-time $hold-time j rctl)
+	k (tap-hold $tap-time $hold-time k rsft)
+	l (tap-hold $tap-time $hold-time l ralt)
+	scln (tap-hold $tap-time $hold-time scln rmet)
+)
+
+(deflayer base
+	@caps	@a	@s	@d	@f	@j	@k	@l	@scln
+)
+

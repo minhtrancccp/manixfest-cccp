@@ -1,0 +1,156 @@
+# manixfest-cccp
+
+see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab56e3258ecf/TODO.md) for how to structure this file
+
+## in progress
+
+- [ ] nixcord
+- [ ] laptop
+    - https://wiki.archlinux.org/title/Laptop
+    - https://wiki.nixos.org/wiki/Laptop
+- [ ] bash
+    - [ ] check if new commit available from `nixos-unstable` branch
+    - [ ] helper functions for nixos-rebuild
+    - [ ] search hm options in both extranix and nüschtos
+    - ` [[ "$(nix flake metadata nixpkgs/nixos-unstable --json | jq --raw-output .revision)" = "$(nixos-version --hash)" ]] `
+    - ` type -p grep | readlink -f "$(</dev/stdin)" `
+    - https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-writeShellScriptBin
+    - https://wiki.nixos.org/wiki/Nix_Cookbook#Creating_shell_scripts
+    - https://www.youtube.com/watch?v=diIh0P12arA
+- [ ] fprintd
+    - [ ] timeout
+    - https://bugs.kde.org/show_bug.cgi?id=469951
+    - https://man.archlinux.org/man/pam_fprintd.8.en#timeout=
+    - https://man.archlinux.org/man/sudoers.5
+    - https://wiki.archlinux.org/title/Fprint
+    - https://wiki.nixos.org/wiki/Fingerprint_scanner#Login
+- [ ] kwallet
+    - [ ] pam autologin
+    - https://timothymiller.dev/posts/2024/auto-login-with-nixos-and-kde-plasma/
+
+## todo
+
+- [ ] autoUpgrade
+    - https://nixos.org/manual/nixos/unstable/#sec-upgrading-automatic
+- [ ] ble.sh
+- [ ] fzf
+    - [ ] auto-completion for appropriate functions in `./auxiliary/init.bash`
+    - `complete -p [based command]`
+- [ ] lazygit
+    - [ ] default commit message
+    - [ ] commit message body for conventional commits
+- [ ] ibus-bamboo
+    - https://forum.manjaro.org/t/plasma-6-wayland-and-ibus/162937
+    - https://github.com/BambooEngine/ibus-bamboo/pull/519#issuecomment-2581607399
+- [ ] kde
+    - [ ] logout
+    - [ ] save display scaling in `Display Configuration` settings
+- [ ] extraPackages
+    - https://www.reddit.com/r/NixOS/comments/vl3hqc/extrapackages/
+- [ ] REORG
+    - https://github.com/nix-community/nix-on-droid/tree/master/templates/advanced
+    - https://www.youtube.com/watch?v=vYc6IzKvAJQ
+- [ ] treefmt
+    - [ ] ci
+- [ ] git
+    - [ ] delta alternatives
+    - [ ] maintenance
+    - https://git-scm.com/docs/git-maintenance
+    - https://noborus.github.io/ov/delta/index.html
+- [ ] plasma
+    - [ ] konsole
+- [ ] firefox
+    - [ ] redirect explainxkcd
+- [ ] nixpkgs
+    - [ ] detect package with flakes supported
+    - ` nix derivation show -r /run/current-system | jq '[.[].env|select(.pname and.src and(.src|test("source$")))|"\(.pname) \(.src)"]|unique' | bat -nljson `
+- [ ] nix
+    - [ ] replicate usage of access tokens with gh and glab api calls to forgejo and sourcehut instances
+    - [ ] list substituters of inputs in `flake.lock`
+    - https://forgejo.org/docs/latest/user/api-usage/#oauth2-provider
+    - https://nix.dev/manual/nix/latest/command-ref/conf-file#conf-access-tokens
+    - https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake#types
+- [ ] steam remote play
+    - https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/programs/steam.nix#L211-L229
+- [ ] atuin
+    - [ ] daemon
+- [ ] `./temp/old-nixes`
+- [ ] disko
+    - [ ] lvm
+    - [ ] disk encryption with unattended boot using tpm
+    - https://github.com/nix-community/disko/issues/295
+- [ ] lix
+    - https://git.lix.systems/lix-project/nixos-module
+    - https://lix.systems/resources/
+    - https://old.reddit.com/r/NixOS/search/?q=lix&include_over_18=on&restrict_sr=on&sort=new
+    - https://wiki.lix.systems/books/lix-contributors/page/codebase-overview
+    - https://wiki.lix.systems/books/lix-contributors/page/lix-beta-guide#bkmrk-flakes
+
+## done ✓
+
+- [ ] bash
+    - [x] add `gh notify` in init
+    - [x] add `HISTTIMEFORMAT`
+- [ ] git
+    - [x] add `merge.autoStash`, `push.autoSetupRemote`
+- [ ] jqp
+    - [x] enable home-manager option
+- [ ] lazygit
+    - [x] add `git.overrideGpg`
+    - [x] update syntax of custom commands
+- [ ] nix
+    - [x] adapt `recommendedDefaults` options from `nuschtos/nixos-modules`
+    - [x] add substituters
+    - [x] replace `NIX_USER_CONF_FILES` with `extraOptions`
+- [ ] nixpkgs
+    - [x] add unfree exemptions for stremio
+    - [x] update `allowUnfreePredicate`
+- [ ] plasma
+    - [x] night light
+- [x] REFACTORING
+    - [x] add `toYAML` for generating config files
+    - [x] add `flakeDefault`, temporarily
+        - ` flakeDefault = path: lib.attrsets.attrByPath (path ++ [ "default" ]) null `
+        - ` ([ "nixosModules" ] |> flakeDefault |> lib.map) `
+    - [x] prepare `firefox-addons-nix`
+    - [x] reduce `attrNames`, `genAttrs`, `let`
+    - [x] replace `with` by `inherit`
+    - [x] standardise `let`'s, pipes and attrs merges
+    - [x] update `editor` and `pager` env var
+    - [x] update github commnents to last checked commit
+    - [x] update multiline comment style
+    - [x] update username
+- [x] batman
+    - [x] add env vars
+- [x] chromium
+    - [x] add `nativeMessagingHosts`
+- [x] dotfiles
+    - [x] add configs for ov
+    - [x] remove obsolete auxiliary dir
+- [x] kanata
+    - [x] add home row mods
+- [x] mime
+    - [x] remove `addedAssociations` and vlc defaults
+    - [x] update structure of `defaultApplications`
+- [x] nix-index
+    - [x] replace with `nix-index-database`
+- [x] nur
+    - [x] remove from usage
+- [x] nix-tree
+    - [x] replace `defaultPackage`
+- [x] sops
+    - [x] support `atuin` credentials
+
+## resources
+- https://en.wikipedia.org/wiki/ASCII#Character_set
+- https://home-manager-options.extranix.com/?query=&release=master
+- https://home-manager.dev/
+- https://nix.dev/manual/nix/latest/
+- https://nixos.org/learn/
+- https://nixos.org/manual/nixos/unstable/
+- https://nixos.org/manual/nixpkgs/unstable/
+- https://noogle.dev/
+- https://nuschtos-search.pages.dev/
+- https://search.nixos.org/packages?channel=unstable
+- https://wiki.nixos.org/wiki/NixOS_Wiki
+

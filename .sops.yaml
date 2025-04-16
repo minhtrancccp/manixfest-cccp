@@ -1,0 +1,7 @@
+keys:
+  - &pgp_cccp E5FFFCFA3382B1334A595CBCE8C3CAAF4029DD14
+creation_rules:
+  - path_regex: auxiliary/secrets\.yaml
+    key_groups:
+      - pgp:
+          - *pgp_cccp
