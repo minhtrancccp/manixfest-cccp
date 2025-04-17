@@ -6,6 +6,7 @@
 
   enableMapAttrs,
   flakeDefaultPackage,
+  genericMapAttrs,
   quickGenAttrs,
   quickMapAttrs,
 
@@ -31,6 +32,7 @@
 
         enableMapAttrs
         flakeDefaultPackage
+        genericMapAttrs
         quickGenAttrs
         quickMapAttrs
 

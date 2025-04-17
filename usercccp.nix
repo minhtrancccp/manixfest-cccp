@@ -8,6 +8,7 @@
 
   enableMapAttrs,
   flakeDefaultPackage,
+  genericMapAttrs,
   quickGenAttrs,
   quickMapAttrs,
 
@@ -555,15 +556,11 @@ in
         nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
       } { inherit (config.programs) chromium firefox; })
 
-      (
-        (
-          (value: {
-            enable = true;
-            package = flakeDefaultPackage value;
-          })
-          |> trivial.const
-          |> lib.mapAttrs
-        )
+      (genericMapAttrs
+        (value: {
+          enable = true;
+          package = flakeDefaultPackage value;
+        })
         {
           inherit (inputs)
             atuin

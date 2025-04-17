@@ -89,7 +89,8 @@
               let
                 inherit (lib) trivial;
 
-                quickMapAttrs = value: value |> trivial.const |> trivial.const |> lib.mapAttrs;
+                genericMapAttrs = func: func |> trivial.const |> lib.mapAttrs;
+                quickMapAttrs = value: value |> trivial.const |> genericMapAttrs;
               in
               {
                 inherit
@@ -97,6 +98,7 @@
                   hostPlatform
 
                   flakeDefaultPackage
+                  genericMapAttrs
                   quickMapAttrs
 
                   inputs
