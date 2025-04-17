@@ -107,6 +107,7 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] update `allowUnfreePredicate`
 - [ ] plasma
     - [x] night light
+    - [x] `kwinrc.Xwayland.Scale`
 - [x] REFACTORING
     - [x] add `toYAML` for generating config files
     - [x] add `flakeDefault`, temporarily
