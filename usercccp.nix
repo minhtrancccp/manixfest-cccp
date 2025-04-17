@@ -447,7 +447,7 @@ in
 
                   options =
                     attrsets.mapAttrsToList
-                      (name: description: attrsets.nameValuePair name name // { inherit description; })
+                      (name: description: { inherit description; } // attrsets.nameValuePair name name)
                       {
                         build = "Changes that affect the build system or external dependencies";
                         chore = "Other changes that don't modify src or test files";
@@ -516,11 +516,11 @@ in
         ripgrep.arguments = [ "-S" ];
 
         yt-dlp.settings =
-          quickMapAttrs true {
-            inherit (config.programs.yt-dlp.settings) live-from-start write-subs write-auto-subs;
-          }
-          // {
+          {
             cookies-from-browser = "firefox";
+          }
+          // quickMapAttrs true {
+            inherit (config.programs.yt-dlp.settings) live-from-start write-subs write-auto-subs;
           };
       }
 
@@ -627,20 +627,9 @@ in
 
           "ov/config.yaml".source = # https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/ov-less.yaml
             toYAML (
-              trueGenAttrs [
-                "Incsearch"
-                "QuitSmall"
-                "RegexpSearch"
-                "SmartCaseSensitive"
-              ]
-              // {
+              {
                 General =
-                  falseGenAttrs [
-                    "AlternateRows"
-                    "ColumnMode"
-                    "LineNumMode"
-                  ]
-                  // {
+                  {
                     ColumnDelimiter = ",";
                     Header = 0;
                     MarkStyleWidth = 1;
@@ -695,7 +684,12 @@ in
 
                       VerticalHeaderBorder.Background = "#c0c0c0";
                     };
-                  };
+                  }
+                  // falseGenAttrs [
+                    "AlternateRows"
+                    "ColumnMode"
+                    "LineNumMode"
+                  ];
 
                 KeyBind = {
                   align_format = [ "ctrl+alt+f" ];
@@ -856,6 +850,12 @@ in
                 Mode.markdown.SectionDelimiter = "^#";
                 Mode.markdown.Style.SectionLine.Background = "blue";
               }
+              // trueGenAttrs [
+                "Incsearch"
+                "QuitSmall"
+                "RegexpSearch"
+                "SmartCaseSensitive"
+              ]
             );
         }
       );
