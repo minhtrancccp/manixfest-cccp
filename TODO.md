@@ -109,6 +109,7 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] night light
     - [x] `kwinrc.Xwayland.Scale`
 - [x] REFACTORING
+    - [x] add `mergeAttrs` as a partial substitue of `lib.modules.mkMerge`
     - [x] add `toYAML` for generating config files
     - [x] add `flakeDefault`, temporarily
         - ` flakeDefault = path: lib.attrsets.attrByPath (path ++ [ "default" ]) null `

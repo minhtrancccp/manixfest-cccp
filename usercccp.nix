@@ -639,54 +639,74 @@ in
                     TabWidth = 4;
                     WrapMode = true;
 
-                    Style = {
-                      ColumnRainbow = lib.map (value: { Foreground = value; }) [
-                        "white"
-                        "crimson"
-                        "aqua"
-                        "lightsalmon"
-                        "lime"
-                        "blue"
-                        "yellowgreen"
+                    Style =
+                      let
+                        mergeAttrs =
+                          /*
+                            https://discourse.nixos.org/t/nix-function-to-merge-attributes-records-recursively-and-concatenate-arrays/2030
+                            https://stackoverflow.com/questions/54504685/nix-function-to-merge-attributes-records-recursively-and-concatenate-arrays
+                          */
+                          (
+                            values:
+                            if lib.length values == 1 then
+                              lib.head values
+                            else if lib.all lib.isList values then
+                              values |> lib.concatLists |> lib.lists.unique
+                            else if lib.all lib.isAttrs values then
+                              mergeAttrs values
+                            else
+                              lib.lists.last values
+                          )
+                          |> lib.trivial.const
+                          |> lib.zipAttrsWith;
+                      in
+                      mergeAttrs [
+                        {
+                          ColumnRainbow = lib.map (value: { Foreground = value; }) [
+                            "white"
+                            "crimson"
+                            "aqua"
+                            "lightsalmon"
+                            "lime"
+                            "blue"
+                            "yellowgreen"
+                          ];
+                          MultiColorHighlight = lib.map (value: { Foreground = value; }) [
+                            "red"
+                            "aqua"
+                            "yellow"
+                            "fuchsia"
+                            "lime"
+                            "blue"
+                            "grey"
+                          ];
+
+                          ColumnHighlight.Reverse = true;
+
+                          JumpTargetLine.Underline = true;
+
+                          OverLine.Underline = true;
+
+                          Ruler.Foreground = "#CCCCCC";
+
+                          SearchHighlight.Reverse = true;
+                        }
+
+                        (quickGenAttrs { Bold = true; } [
+                          "Header"
+                          "LineNumber"
+                          "OverStrike"
+                          "Ruler"
+                        ])
+
+                        (genericMapAttrs (value: { Background = value; }) {
+                          Alternate = "gray";
+                          MarkLine = "darkgoldenrod";
+                          Ruler = "#333333";
+                          SectionLine = "slateblue";
+                          VerticalHeaderBorder = "#c0c0c0";
+                        })
                       ];
-                      MultiColorHighlight = lib.map (value: { Foreground = value; }) [
-                        "red"
-                        "aqua"
-                        "yellow"
-                        "fuchsia"
-                        "lime"
-                        "blue"
-                        "grey"
-                      ];
-
-                      Alternate.Background = "gray";
-
-                      ColumnHighlight.Reverse = true;
-
-                      Header.Bold = true;
-
-                      JumpTargetLine.Underline = true;
-
-                      LineNumber.Bold = true;
-
-                      MarkLine.Background = "darkgoldenrod";
-
-                      OverLine.Underline = true;
-
-                      OverStrike.Bold = true;
-
-                      Ruler = {
-                        Background = "#333333";
-                        Bold = true;
-                        Foreground = "#CCCCCC";
-                      };
-
-                      SearchHighlight.Reverse = true;
-
-                      SectionLine.Background = "slateblue";
-
-                      VerticalHeaderBorder.Background = "#c0c0c0";
-                    };
                   }
                   // falseGenAttrs [
                     "AlternateRows"
