@@ -262,14 +262,15 @@ in
 
       kanata.keyboards.${hostName}.configFile = ./auxiliary/${hostName}.kbd;
 
-      pipewire = {
-        alsa.enable = true;
-        alsa.support32Bit = true;
+      pipewire = # https://wiki.archlinux.org/title/PipeWire
+        {
+          alsa.enable = true;
+          alsa.support32Bit = true;
 
-        pulse.enable = true;
-      };
+          jack.enable = true;
 
-      pulseaudio.enable = false;
+          pulse.enable = true;
+        };
     }
 
     (enableMapAttrs {
