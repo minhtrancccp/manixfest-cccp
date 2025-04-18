@@ -274,7 +274,6 @@ in
       inherit (config.services)
         cloudflare-warp
         earlyoom # https://old.reddit.com/r/NixOS/comments/10o0sdp/computer_hangs_when_all_ram_is_used/
-        fprintd
         fwupd
         kanata
         pipewire
@@ -313,12 +312,7 @@ in
       };
   };
 
-  systemd = {
-    enableStrictShellChecks = true;
-
-    services.fprintd.serviceConfig.Type = "simple";
-    services.fprintd.wantedBy = [ "multi-user.target" ];
-  };
+  systemd.enableStrictShellChecks = true;
 
   # system.autoUpgrade = {
   #   enable = true;
