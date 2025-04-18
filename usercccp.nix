@@ -248,8 +248,6 @@ in
         keymap_mode = "auto";
         workspaces = true;
 
-        # daemon.enable = true; # https://github.com/atuinsh/atuin/issues/2682
-
         sync.records = true;
       };
 

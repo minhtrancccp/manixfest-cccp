@@ -316,9 +316,6 @@ in
 
   systemd.enableStrictShellChecks = true;
 
-  # system.autoUpgrade = {
-  #   enable = true;
-  # };
   system.rebuild.enableNg = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
