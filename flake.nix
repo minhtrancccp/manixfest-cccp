@@ -16,7 +16,7 @@
       # firefox-addons-nix.url = "github:petrkozorezov/firefox-addons-nix"; # https://github.com/piroor/copy-selected-tabs-to-clipboard/issues/58
       flake-firefox-nightly.url = "github:nix-community/flake-firefox-nightly";
       handlr-regex.url = "github:anomalocaridid/handlr-regex";
-      home-manager.url = "github:nix-community/home-manager"; # https://github.com/nix-community/home-manager/pull/6715
+      home-manager.url = "github:nix-community/home-manager";
       ibus-bamboo.url = "github:bambooengine/ibus-bamboo";
       nh.url = "github:viperml/nh";
       nix-converter.url = "github:theobori/nix-converter";
