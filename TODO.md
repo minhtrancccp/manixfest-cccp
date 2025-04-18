@@ -1,48 +1,63 @@
-# manixfest-cccp
+# todo list
 
 see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab56e3258ecf/TODO.md) for how to structure this file
 
 ## in progress
 
 - [ ] nixcord
+- [ ] shell
+    - [ ] check for new `nixos-unstable` commit
+    - [ ] helper functions for nixos-rebuild
+    - [ ] update commit hash in github blob comments
+    - ` [[ "$(nix flake metadata nixpkgs/nixos-unstable --json | jq --raw-output .revision)" = "$(nixos-version --hash)" ]] `
+    - ` type -p grep | readlink -f "$(</dev/stdin)" `
+    - https://discourse.nixos.org/t/packaging-a-bash-script-issues/20224
+    - https://ertt.ca/nix/shell-scripts/
+    - https://nixos.org/manual/nixpkgs/unstable/#sec-functions-library-cli
+    - https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-writeShellApplication
+    - https://wiki.nixos.org/wiki/Nix_Cookbook#Creating_shell_scripts
+    - https://www.youtube.com/watch?v=diIh0P12arA
+    - https://www.youtube.com/watch?v=qRE6kf30u4g
+- [ ] ibus-bamboo
+    - https://forum.manjaro.org/t/plasma-6-wayland-and-ibus/162937
+    - https://github.com/BambooEngine/ibus-bamboo/pull/519#issuecomment-2581607399
 - [ ] laptop
     - https://wiki.archlinux.org/title/Laptop
     - https://wiki.nixos.org/wiki/Laptop
-- [ ] bash
-    - [ ] check if new commit available from `nixos-unstable` branch
-    - [ ] helper functions for nixos-rebuild
-    - [ ] search hm options in both extranix and nüschtos
-    - ` [[ "$(nix flake metadata nixpkgs/nixos-unstable --json | jq --raw-output .revision)" = "$(nixos-version --hash)" ]] `
-    - ` type -p grep | readlink -f "$(</dev/stdin)" `
-    - https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-writeShellScriptBin
-    - https://wiki.nixos.org/wiki/Nix_Cookbook#Creating_shell_scripts
-    - https://www.youtube.com/watch?v=diIh0P12arA
 - [ ] kwallet
     - [ ] pam autologin
     - https://timothymiller.dev/posts/2024/auto-login-with-nixos-and-kde-plasma/
 
 ## todo
 
+- [ ] ble.sh
+- [ ] kde
+    - [ ] save display scaling in `Display Configuration` settings
+    - [ ] logout
+    - [ ] konsole
 - [ ] autoUpgrade
     - https://nixos.org/manual/nixos/unstable/#sec-upgrading-automatic
-- [ ] ble.sh
-- [ ] fzf
-    - [ ] auto-completion for appropriate functions in `./auxiliary/init.bash`
-    - `complete -p [based command]`
+- [ ] writer
+    - [ ] toYAML
+    - https://nixos.org/manual/nixpkgs/unstable/#part-stdenv
+    - https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-runCommandWith-Inputs
 - [ ] lazygit
     - [ ] default commit message
     - [ ] commit message body for conventional commits
-- [ ] ibus-bamboo
-    - https://forum.manjaro.org/t/plasma-6-wayland-and-ibus/162937
-    - https://github.com/BambooEngine/ibus-bamboo/pull/519#issuecomment-2581607399
-- [ ] kde
-    - [ ] logout
-    - [ ] save display scaling in `Display Configuration` settings
-- [ ] extraPackages
-    - https://www.reddit.com/r/NixOS/comments/vl3hqc/extrapackages/
+- [ ] fzf
+    - [ ] auto-completion for appropriate functions in `./auxiliary/init.bash`
+    - ` complete -p [based command] `
 - [ ] REORG
     - https://github.com/nix-community/nix-on-droid/tree/master/templates/advanced
     - https://www.youtube.com/watch?v=vYc6IzKvAJQ
+- [ ] atuin
+    - [ ] daemon
+    - https://github.com/atuinsh/atuin/pull/2684
+- [ ] firefox
+    - [ ] redirect explainxkcd
+- [ ] steam
+    - [ ] remote play
+    - https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/programs/steam.nix#L211-L229
 - [ ] treefmt
     - [ ] ci
 - [ ] git
@@ -50,10 +65,6 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [ ] maintenance
     - https://git-scm.com/docs/git-maintenance
     - https://noborus.github.io/ov/delta/index.html
-- [ ] plasma
-    - [ ] konsole
-- [ ] firefox
-    - [ ] redirect explainxkcd
 - [ ] nixpkgs
     - [ ] detect package with flakes supported
     - ` nix derivation show -r /run/current-system | jq '[.[].env|select(.pname and.src and(.src|test("source$")))|"\(.pname) \(.src)"]|unique' | bat -nljson `
@@ -61,23 +72,19 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [ ] replicate usage of access tokens with gh and glab api calls to forgejo and sourcehut instances
     - [ ] list substituters of inputs in `flake.lock`
     - https://forgejo.org/docs/latest/user/api-usage/#oauth2-provider
-    - https://nix.dev/manual/nix/latest/command-ref/conf-file#conf-access-tokens
+    - https://github.com/search?q=repo%3ANixOS%2Fnix+access+token&type=issues
     - https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake#types
-- [ ] steam remote play
-    - https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/programs/steam.nix#L211-L229
-- [ ] atuin
-    - [ ] daemon
-- [ ] `./temp/old-nixes`
-- [ ] disko
-    - [ ] lvm
-    - [ ] disk encryption with unattended boot using tpm
-    - https://github.com/nix-community/disko/issues/295
 - [ ] lix
     - https://git.lix.systems/lix-project/nixos-module
     - https://lix.systems/resources/
     - https://old.reddit.com/r/NixOS/search/?q=lix&include_over_18=on&restrict_sr=on&sort=new
     - https://wiki.lix.systems/books/lix-contributors/page/codebase-overview
     - https://wiki.lix.systems/books/lix-contributors/page/lix-beta-guide#bkmrk-flakes
+- [ ] `./temp/old-nixes`
+- [ ] disko
+    - [ ] lvm
+    - [ ] disk encryption with unattended boot using tpm
+    - https://github.com/nix-community/disko/issues/295
 
 ## done ✓
 
@@ -86,8 +93,6 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] add `HISTTIMEFORMAT`
 - [ ] git
     - [x] add `merge.autoStash`, `push.autoSetupRemote`
-- [ ] jqp
-    - [x] enable home-manager option
 - [ ] lazygit
     - [x] add `git.overrideGpg`
     - [x] update syntax of custom commands
@@ -98,30 +103,27 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
 - [ ] nixpkgs
     - [x] add unfree exemptions for stremio
     - [x] update `allowUnfreePredicate`
-- [ ] plasma
+- [ ] kde
     - [x] night light
     - [x] `kwinrc.Xwayland.Scale`
 - [x] REFACTORING
-    - [x] add `mergeAttrs` as a partial substitue of `lib.modules.mkMerge`
+    - [x] add `editor` and `pager` env var in userspace
+    - [x] add `mergeAttrs` as a partial substitue of `lib.modules.mkMerge` for non-modules attrs
     - [x] add `toYAML` for generating config files
+    - [x] add `nativeMessagingHosts`
     - [x] add `flakeDefault`, temporarily
-        - ` flakeDefault = path: lib.attrsets.attrByPath (path ++ [ "default" ]) null `
-        - ` ([ "nixosModules" ] |> flakeDefault |> lib.map) `
+    - ` flakeDefault = path: lib.attrsets.attrByPath (path ++ [ "default" ]) null `
+    - ` ([ "nixosModules" ] |> flakeDefault |> lib.map) `
     - [x] prepare `firefox-addons-nix`
     - [x] reduce `attrNames`, `genAttrs`, `let`
     - [x] replace `with` by `inherit`
-    - [x] standardise `let`'s, pipes and attrs merges
-    - [x] update `editor` and `pager` env var
-    - [x] update github commnents to last checked commit
-    - [x] update multiline comment style
-    - [x] update username
+    - [x] standardise pipes and attrs merges
+    - [x] update username and multiline comment style
 - [x] batman
     - [x] add env vars
-- [x] chromium
-    - [x] add `nativeMessagingHosts`
 - [x] dotfiles
     - [x] add configs for ov
-    - [x] remove obsolete auxiliary dir
+    - [x] remove obsolete dir
 - [x] kanata
     - [x] add home row mods
 - [x] kernel
