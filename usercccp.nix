@@ -576,7 +576,7 @@ in
         modules.mkMerge [
           { enable = true; }
 
-          (attrsets.optionalAttrs (!lib.isAttrs value) { package = flakeDefaultPackage value; })
+          (attrsets.optionalAttrs ((value._type or null) == "flake") { package = flakeDefaultPackage value; })
           /*
             https://discourse.nixos.org/t/lib-modules-mkif-vs-lib-attrsets-optionalattrs-and-other-module-system-basics/42728
             https://wiki.nixos.org/wiki/The_Nix_Language_versus_the_NixOS_Module_System#If-then
