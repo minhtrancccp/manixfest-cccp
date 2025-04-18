@@ -433,7 +433,7 @@ in
           }
 
           {
-            command = "${gitPath} push {{.Form.Arg}} -- {{.Form.Remote}}";
+            command = "${gitPath} push {{ if .Form.Arg }}--{{ .Form.Arg }} {{ end }}-- {{.Form.Remote}}";
             context = "global";
             description = "Push to a specific remote repository";
             key = "<c-P>";
@@ -459,9 +459,7 @@ in
                   lib.map
                     (
                       arg:
-                      attrsets.nameValuePair (
-                        if lib.stringLength arg < 1 then "normal" else lib.replaceStrings [ "-" ] [ " " ] arg
-                      ) "--${arg}"
+                      attrsets.nameValuePair (if arg == "" then "normal" else lib.replaceStrings [ "-" ] [ " " ] arg) arg
                     )
                     [
                       ""
