@@ -4,7 +4,6 @@
   admin,
   hostPlatform,
 
-  enableMapAttrs,
   flakeDefaultPackage,
   genericMapAttrs,
   quickGenAttrs,
@@ -30,7 +29,6 @@
         admin
         hostPlatform
 
-        enableMapAttrs
         flakeDefaultPackage
         genericMapAttrs
         quickGenAttrs
