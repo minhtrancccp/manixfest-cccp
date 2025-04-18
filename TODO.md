@@ -124,6 +124,8 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] remove obsolete auxiliary dir
 - [x] kanata
     - [x] add home row mods
+- [x] kernel
+    - [x] use latest version
 - [x] mime
     - [x] remove `addedAssociations` and vlc defaults
     - [x] update structure of `defaultApplications`

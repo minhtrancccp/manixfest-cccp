@@ -25,6 +25,8 @@ in
     inputs.nuschtos-nixos-modules.lib { inherit lib config; }; # https://github.com/NuschtOS/nixos-modules
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
       "zswap.enabled=1" # https://discourse.nixos.org/t/working-zswap-configuration-different-from-zram/47804
