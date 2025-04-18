@@ -6,7 +6,6 @@
   admin,
   hostPlatform,
 
-  enableMapAttrs,
   flakeDefaultPackage,
   genericMapAttrs,
   quickGenAttrs,
@@ -275,111 +274,116 @@ in
       };
 
       chromium.package = pkgs.ungoogled-chromium;
+      chromium.nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
 
       fd.hidden = true;
 
-      firefox.package = inputs.flake-firefox-nightly.packages.${hostPlatform}.firefox-nightly-bin;
-      firefox.profiles = {
-        synced.id = 3;
+      firefox = {
+        package = inputs.flake-firefox-nightly.packages.${hostPlatform}.firefox-nightly-bin;
 
-        twitch = extendFirefoxProfile {
-          id = 2;
+        nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
+        profiles = {
+          synced.id = 3;
 
-          extensions.packages = lib.attrValues { inherit (firefox-addons) betterttv; };
+          twitch = extendFirefoxProfile {
+            id = 2;
 
-          settings."extensions.autoDisableScopes" = 0;
-        };
+            extensions.packages = lib.attrValues { inherit (firefox-addons) betterttv; };
 
-        nsfw = extendFirefoxProfile {
-          id = 1;
-
-          extensions.packages = lib.attrValues {
-            inherit (firefox-addons)
-              bitwarden
-              copy-selected-tabs-to-clipboard
-              link-gopher
-              reddit-enhancement-suite
-              single-file
-              violentmonkey
-              wayback-machine
-              ;
+            settings."extensions.autoDisableScopes" = 0;
           };
 
-          settings."browser.newtabpage.activity-stream.topSitesRows" = 2;
-          settings."extensions.autoDisableScopes" = 0;
-        };
+          nsfw = extendFirefoxProfile {
+            id = 1;
 
-        ${admin} = extendFirefoxProfile {
-          containersForce = true;
-
-          extensions.packages = lib.attrValues {
-            inherit (firefox-addons)
-              ask-historians-comment-helper
-              auto-sort-bookmarks
-              betterttv
-              bitwarden
-              bookmark-search-plus-2
-              cookie-quick-manager
-              copy-selected-tabs-to-clipboard
-              enhancer-for-nebula
-              link-gopher
-              multi-account-containers
-              plasma-integration
-              reddit-enhancement-suite
-              redirector
-              refined-github
-              search-by-image
-              single-file
-              sponsorblock
-              translate-web-pages
-              user-agent-string-switcher
-              violentmonkey
-              wayback-machine
-              xkit-rewritten
-              ;
-          };
-
-          containers.private = {
-            id = 1; # so as to be visible when right-clicked
-            color = "red";
-            icon = "fingerprint";
-          };
-
-          search.order = [ ]; # Any engines that aren’t included in this list will be listed after these in an unspecified order.
-          search.engines = {
-            "NixOS Wiki" = {
-              icon = "https://wiki.nixos.org/favicon.ico";
-
-              definedAliases = [ "@nw" ];
-              urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+            extensions.packages = lib.attrValues {
+              inherit (firefox-addons)
+                bitwarden
+                copy-selected-tabs-to-clipboard
+                link-gopher
+                reddit-enhancement-suite
+                single-file
+                violentmonkey
+                wayback-machine
+                ;
             };
+
+            settings."browser.newtabpage.activity-stream.topSitesRows" = 2;
+            settings."extensions.autoDisableScopes" = 0;
           };
 
-          settings = modules.mkMerge [
-            {
-              "browser.newtabpage.activity-stream.topSitesRows" = 4;
-              "browser.startup.page" = 3;
-            }
+          ${admin} = extendFirefoxProfile {
+            containersForce = true;
 
-            (falseGenAttrs [
-              "browser.aboutConfig.showWarning"
-              "browser.bookmarks.showMobileBookmarks"
+            extensions.packages = lib.attrValues {
+              inherit (firefox-addons)
+                ask-historians-comment-helper
+                auto-sort-bookmarks
+                betterttv
+                bitwarden
+                bookmark-search-plus-2
+                cookie-quick-manager
+                copy-selected-tabs-to-clipboard
+                enhancer-for-nebula
+                link-gopher
+                multi-account-containers
+                plasma-integration
+                reddit-enhancement-suite
+                redirector
+                refined-github
+                search-by-image
+                single-file
+                sponsorblock
+                translate-web-pages
+                user-agent-string-switcher
+                violentmonkey
+                wayback-machine
+                xkit-rewritten
+                ;
+            };
 
-              "devtools.webconsole.filter.error"
-              "devtools.webconsole.filter.warn"
-              "devtools.webconsole.input.editorOnboarding"
+            containers.private = {
+              id = 1; # so as to be visible when right-clicked
+              color = "red";
+              icon = "fingerprint";
+            };
 
-              # "xpinstall.signatures.required" # https://github.com/bpc-clone/bypass-paywalls-firefox-clean
-            ])
+            search.order = [ ]; # Any engines that aren’t included in this list will be listed after these in an unspecified order.
+            search.engines = {
+              "NixOS Wiki" = {
+                icon = "https://wiki.nixos.org/favicon.ico";
 
-            (trueGenAttrs [
-              "browser.urlbar.keepPanelOpenDuringImeComposition"
+                definedAliases = [ "@nw" ];
+                urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+              };
+            };
 
-              "devtools.everOpened"
-              "devtools.webconsole.input.editor"
-              "devtools.webconsole.timestampMessages"
-            ])
-          ];
+            settings = modules.mkMerge [
+              {
+                "browser.newtabpage.activity-stream.topSitesRows" = 4;
+                "browser.startup.page" = 3;
+              }
+
+              (falseGenAttrs [
+                "browser.aboutConfig.showWarning"
+                "browser.bookmarks.showMobileBookmarks"
+
+                "devtools.webconsole.filter.error"
+                "devtools.webconsole.filter.warn"
+                "devtools.webconsole.input.editorOnboarding"
+
+                # "xpinstall.signatures.required" # https://github.com/bpc-clone/bypass-paywalls-firefox-clean
+              ])
+
+              (trueGenAttrs [
+                "browser.urlbar.keepPanelOpenDuringImeComposition"
+
+                "devtools.everOpened"
+                "devtools.webconsole.input.editor"
+                "devtools.webconsole.timestampMessages"
+              ])
+            ];
+          };
         };
       };
 
@@ -565,43 +569,44 @@ in
         };
     }
 
-    (enableMapAttrs {
-      inherit (config.programs)
-        bash
-        bat
-        btop
-        chromium
-        fastfetch
-        fd
-        firefox
-        fzf
-        gh
-        git
-        gpg
-        jq
-        jqp
-        khard
-        lazygit
-        mpv
-        navi
-        plasma
-        ripgrep
-        ssh
-        yt-dlp
-        zoxide
-        ;
-    })
-
-    (quickMapAttrs {
-      nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
-    } { inherit (config.programs) chromium firefox; })
-
     (genericMapAttrs
-      (value: {
-        enable = true;
-        package = flakeDefaultPackage value;
-      })
+      (
+        value:
+        modules.mkMerge [
+          { enable = true; }
+
+          (attrsets.optionalAttrs (!lib.isAttrs value) { package = flakeDefaultPackage value; })
+          /*
+            https://discourse.nixos.org/t/lib-modules-mkif-vs-lib-attrsets-optionalattrs-and-other-module-system-basics/42728
+            https://wiki.nixos.org/wiki/The_Nix_Language_versus_the_NixOS_Module_System#If-then
+          */
+        ]
+      )
       {
+        inherit (config.programs)
+          bash
+          bat
+          btop
+          chromium
+          fastfetch
+          fd
+          firefox
+          fzf
+          gh
+          git
+          gpg
+          jq
+          jqp
+          khard
+          lazygit
+          mpv
+          navi
+          plasma
+          ripgrep
+          ssh
+          yt-dlp
+          zoxide
+          ;
         inherit (inputs)
           atuin
           pay-respects
