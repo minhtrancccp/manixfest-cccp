@@ -53,63 +53,52 @@
       ...
     }:
     let
+      inherit (nixpkgs) lib; # https://discourse.nixos.org/t/access-lib-in-flake-before-pkgs-is-available/37957
+      inherit (lib) trivial;
+
       hostPlatform = "x86_64-linux";
+      hostName = "laptop-cccp";
 
       flakeDefaultPackage = flake: flake.packages.${hostPlatform}.default;
+      genericMapAttrs = func: func |> trivial.const |> lib.mapAttrs;
+      quickMapAttrs = value: value |> trivial.const |> genericMapAttrs;
     in
     {
       formatter.${hostPlatform} = flakeDefaultPackage nixfmt;
-    }
-    // (
-      let
-        hostName = "laptop-cccp";
-      in
-      {
-        nixosConfigurations.${hostName} =
-          let
-            inherit (nixpkgs) lib; # https://discourse.nixos.org/t/access-lib-in-flake-before-pkgs-is-available/37957
-          in
-          lib.nixosSystem {
-            modules =
-              [
-                envfs.nixosModules.envfs
-                nuschtos-nixos-modules.nixosModules.nix
 
-                ./configuration.nix
-                ./home.nix
-              ]
-              ++ lib.map (flake: flake.nixosModules.default) [
-                disko
-                home-manager
-                nixCats-cccp
-                sops-nix
-              ];
+      nixosConfigurations.${hostName} = lib.nixosSystem {
+        modules =
+          [
+            envfs.nixosModules.envfs
+            nuschtos-nixos-modules.nixosModules.nix
 
-            specialArgs =
-              let
-                inherit (lib) trivial;
+            ./configuration.nix
+            ./home.nix
+          ]
+          ++ lib.map (flake: flake.nixosModules.default) [
+            disko
+            home-manager
+            nixCats-cccp
+            sops-nix
+          ];
 
-                genericMapAttrs = func: func |> trivial.const |> lib.mapAttrs;
-                quickMapAttrs = value: value |> trivial.const |> genericMapAttrs;
-              in
-              {
-                inherit
-                  hostName
-                  hostPlatform
+        specialArgs = {
+          inherit
+            hostName
+            hostPlatform
 
-                  flakeDefaultPackage
-                  genericMapAttrs
-                  quickMapAttrs
+            flakeDefaultPackage
+            genericMapAttrs
+            quickMapAttrs
 
-                  inputs
-                  ;
+            inputs
+            ;
 
-                admin = "usercccp";
+          admin = "usercccp";
 
-                enableMapAttrs = quickMapAttrs { enable = true; };
-                quickGenAttrs = value: value |> trivial.const |> trivial.flip lib.attrsets.genAttrs;
-              };
-          };
-      }
-    );
+          enableMapAttrs = quickMapAttrs { enable = true; };
+          quickGenAttrs = value: value |> trivial.const |> trivial.flip lib.attrsets.genAttrs;
+        };
+      };
+    };
 }
