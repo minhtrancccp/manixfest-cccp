@@ -96,7 +96,6 @@
 
           admin = "usercccp";
 
-          enableMapAttrs = quickMapAttrs { enable = true; };
           quickGenAttrs = value: value |> trivial.const |> trivial.flip lib.attrsets.genAttrs;
         };
       };

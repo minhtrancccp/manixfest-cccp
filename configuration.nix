@@ -9,7 +9,6 @@
   hostName,
   hostPlatform,
 
-  enableMapAttrs,
   flakeDefaultPackage,
   quickGenAttrs,
   quickMapAttrs,
@@ -229,7 +228,7 @@ in
       steam.remotePlay.openFirewall = true;
     }
 
-    (enableMapAttrs {
+    (quickMapAttrs { enable = true; } {
       inherit (config.programs)
         adb
         kdeconnect
@@ -273,7 +272,7 @@ in
         };
     }
 
-    (enableMapAttrs {
+    (quickMapAttrs { enable = true; } {
       inherit (config.services)
         cloudflare-warp
         earlyoom # https://old.reddit.com/r/NixOS/comments/10o0sdp/computer_hangs_when_all_ram_is_used/
