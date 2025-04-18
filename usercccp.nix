@@ -274,14 +274,15 @@ in
       };
 
       chromium.package = pkgs.ungoogled-chromium;
-      chromium.nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
+      chromium.nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b024ced1aac25639f8ca8fdfc2f8c4fbd66c48ef/nixos/modules/services/desktop-managers/plasma6.nix#L350
 
       fd.hidden = true;
 
       firefox = {
         package = inputs.flake-firefox-nightly.packages.${hostPlatform}.firefox-nightly-bin;
 
-        nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L346-L351
+        nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ]; # https://github.com/NixOS/nixpkgs/blob/b024ced1aac25639f8ca8fdfc2f8c4fbd66c48ef/nixos/modules/services/desktop-managers/plasma6.nix#L346
+
         profiles = {
           synced.id = 3;
 
