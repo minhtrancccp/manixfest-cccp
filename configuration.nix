@@ -29,12 +29,12 @@ in
     inputs.nuschtos-nixos-modules.lib { inherit lib config; }; # https://github.com/NuschtOS/nixos-modules
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
       "zswap.enabled=1" # https://discourse.nixos.org/t/working-zswap-configuration-different-from-zram/47804
     ];
+
+    kernelPackages = pkgs.linuxPackages_latest;
 
     initrd.availableKernelModules = [
       "xhci_pci"
@@ -58,26 +58,23 @@ in
 
           content = {
             format = "vfat";
+            mountOptions = [ "umask=0077" ];
             mountpoint = "/boot";
             type = "filesystem";
-
-            mountOptions = [ "umask=0077" ];
           };
         };
 
       root.size = "100%";
       root.content = {
+        extraArgs = [ "-f" ];
         type = "btrfs";
 
-        extraArgs = [ "-f" ];
-
         subvolumes = attrsets.genAttrs [ "/coding" "/home" "/nix" "/root" ] (mountpoint: {
-          mountpoint = if mountpoint == "/root" then "/" else mountpoint;
-
           mountOptions = [
             "compress=zstd"
             "noatime"
           ];
+          mountpoint = if mountpoint == "/root" then "/" else mountpoint;
         });
       };
 
@@ -112,7 +109,6 @@ in
 
   i18n = {
     defaultLocale = "en_GB.UTF-8"; # https://wiki.archlinux.org/title/Locale
-
     supportedLocales = [ "all" ];
 
     inputMethod = {
@@ -314,8 +310,6 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${admin} = {
     description = "Minh";
-    isNormalUser = true;
-
     extraGroups = [
       "keys" # https://github.com/Mic92/sops-nix#set-secret-permissionowner-and-allow-services-to-access-it
       "networkmanager"
@@ -323,6 +317,7 @@ in
       "uinput" # https://github.com/jtroo/kanata/blob/f153fd0c549befada4f0c544b8e5bba4c2d010ad/docs/setup-linux.md
       "wheel"
     ];
+    isNormalUser = true;
   };
 
   xdg.portal.enable = true;
