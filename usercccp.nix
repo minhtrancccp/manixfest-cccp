@@ -417,6 +417,7 @@ in
         /*
           https://github.com/jesseduffield/lazygit/issues/41
           https://github.com/jesseduffield/lazygit/wiki/Custom-Commands-Compendium
+          https://stackoverflow.com/questions/65837109/when-should-i-use-git-push-force-if-includes
         */
         [
           {
