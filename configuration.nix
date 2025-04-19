@@ -17,7 +17,12 @@
   ...
 }:
 let
-  inherit (lib) attrsets modules strings;
+  inherit (lib)
+    attrsets
+    modules
+    strings
+    trivial
+    ;
 in
 {
   _module.args.libS = # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-flake-and-module-system#pass-non-default-parameters-to-submodules
@@ -202,7 +207,7 @@ in
       |> lib.attrNames
       |> lib.concatStringsSep "|"
       |> (patterns: "(${patterns}).*")
-      |> lib.trivial.flip lib.match (
+      |> trivial.flip lib.match (
         pkg |> strings.getName
         # |> strings.removePrefix "firefox-addon-" # https://github.com/petrkozorezov/firefox-addons-nix/blob/71bfc87b45935f56730d7f0043adcd1944621a6e/flake.nix#L10
       )
@@ -286,28 +291,16 @@ in
 
   sops = {
     defaultSopsFile = ./auxiliary/secrets.yaml;
-    /*
-      https://docs.atuin.sh/guide/sync/#login
-      https://github.com/NixOS/nix/issues/6536
-      https://security.stackexchange.com/questions/67893/is-it-dangerous-to-post-my-mac-address-publicly
-    */
 
     gnupg.home = config.home-manager.users.${admin}.programs.gpg.homedir;
 
     secrets =
       config.sops.defaultSopsFile
       |> strings.fileContents
-      |> lib.split "\n"
-      |> lib.concatMap (
-        secret:
-        secret
-        |> lib.match "(.*): .*"
-        |> lib.lists.optionals (
-          lib.isString secret
-          && lib.stringLength secret > 0
-          && (secret |> lib.match "(sops| ).*" |> builtins.isNull)
-        )
-      )
+      |> lib.match "(.*)\nsops:\n.*"
+      |> lib.head
+      |> strings.splitString "\n"
+      |> lib.concatMap (e: e |> lib.match "(.*): ENC\\[.*]" |> trivial.defaultTo [ ])
       |> quickGenAttrs {
         group = config.users.groups.keys.name;
         mode = "0440";
@@ -337,7 +330,7 @@ in
   ### lcm
   # https://nix-community.github.io/nix-on-droid/nix-on-droid-options.html
 
-  system.stateVersion = lib.trivial.release;
+  system.stateVersion = trivial.release;
 
   time.timeZone = "Asia/Bangkok";
 }
