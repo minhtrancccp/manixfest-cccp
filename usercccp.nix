@@ -341,6 +341,7 @@ in
 
             containers.private = {
               id = 1; # so as to be visible when right-clicked
+
               color = "red";
               icon = "fingerprint";
             };
