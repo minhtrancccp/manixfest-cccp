@@ -23,9 +23,8 @@ let
     ;
   inherit (pkgs) firefox-addons;
 
-  gitPath = meta.getExe pkgs.git;
-
   browserDesktopEntryRoots = [ "firefox-nightly" ];
+  gitPath = meta.getExe pkgs.git;
 
   falseGenAttrs = quickGenAttrs false;
   trueGenAttrs = quickGenAttrs true;
@@ -68,7 +67,9 @@ let
         search.force = true;
         search.engines = {
           bing.metaData.hidden = true;
+
           ddg.metaData.hidden = true;
+
           wikipedia.metaData.alias = "@wk";
         };
 
@@ -133,7 +134,6 @@ let
     pkgs.runCommandLocal "toYAML"
       {
         json = builtins.toJSON data;
-
         nativeBuildInputs = lib.attrValues { inherit (pkgs) yamllint yq-go; };
         # passAsFile = [ "json" ]; # https://nix.dev/manual/nix/latest/language/advanced-attributes#adv-attr-passAsFile
       }
@@ -147,11 +147,6 @@ in
   home = {
     editor = "vim";
     homeDirectory = "/home/${admin}";
-    preferXdgDirectories = true;
-    stateVersion = trivial.release;
-    username = admin;
-    visualEditor = config.home.editor;
-
     packages =
       lib.attrValues {
         inherit (pkgs)
@@ -229,6 +224,10 @@ in
         |> lib.attrValues
         |> lib.map flakeDefaultPackage
       );
+    preferXdgDirectories = true;
+    stateVersion = trivial.release;
+    username = admin;
+    visualEditor = config.home.editor;
 
     pager.executable = meta.getExe config.home.pager.package;
     pager.package = pkgs.ov;
@@ -252,11 +251,10 @@ in
       };
 
       bash = {
+        historyControl = [ "ignoreboth" ];
         historyFile = "${config.xdg.stateHome}/bash/history"; # https://savannah.gnu.org/patch/?10431
         initExtra = lib.readFile ./auxiliary/init.bash;
         # profileExtra = ''[[ -r /run/secrets/nix_cccp_pat ]] && GH_TOKEN="$(sed -nr 's/.*github.com=(.*)\s.*/\1/p' /run/secrets/nix_cccp_pat )" && export GH_TOKEN'';
-
-        historyControl = [ "ignoreboth" ];
 
         sessionVariables.HISTTIMEFORMAT = "%c "; # https://man.archlinux.org/man/strftime.3#DESCRIPTION
       };
@@ -350,9 +348,8 @@ in
             search.order = [ ]; # Any engines that aren’t included in this list will be listed after these in an unspecified order.
             search.engines = {
               "NixOS Wiki" = {
-                icon = "https://wiki.nixos.org/favicon.ico";
-
                 definedAliases = [ "@nw" ];
+                icon = "https://wiki.nixos.org/favicon.ico";
                 urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
               };
             };
@@ -436,7 +433,6 @@ in
             description = "Push to a specific remote repository";
             key = "<c-P>";
             loadingText = "Pushing to chosen remote...";
-
             prompts = [
               {
                 command = ''${meta.getExe pkgs.bash} -c "${gitPath} remote --verbose | ${meta.getExe pkgs.gnugrep} -- '\\s(push'"'';
@@ -450,9 +446,6 @@ in
 
               {
                 key = "Arg";
-                title = "How to push?";
-                type = "menu";
-
                 options =
                   lib.map
                     (
@@ -464,6 +457,8 @@ in
                       "force"
                       "force-with-lease"
                     ];
+                title = "How to push?";
+                type = "menu";
               }
             ];
           }
@@ -474,13 +469,9 @@ in
             description = "Create new conventional commit";
             key = "<c-v>";
             loadingText = "Creating conventional commit...";
-
             prompts = [
               {
                 key = "Type";
-                title = "Type of change";
-                type = "menu";
-
                 options =
                   attrsets.mapAttrsToList
                     (name: description: { inherit description; } // attrsets.nameValuePair name name)
@@ -497,6 +488,8 @@ in
                       style = "Changes that do not affect the meaning of the code";
                       test = "Adding missing tests or correcting existing tests";
                     };
+                title = "Type of change";
+                type = "menu";
               }
 
               {
@@ -508,13 +501,12 @@ in
 
               {
                 key = "Breaking";
-                title = "Breaking change";
-                type = "menu";
-
                 options = attrsets.attrsToList {
                   no = "";
                   yes = "!";
                 };
+                title = "Breaking change";
+                type = "menu";
               }
 
               {
