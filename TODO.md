@@ -115,6 +115,7 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - ` flakeDefault = path: lib.attrsets.attrByPath (path ++ [ "default" ]) null `
     - ` ([ "nixosModules" ] |> flakeDefault |> lib.map) `
     - [x] prepare `firefox-addons-nix`
+    - [x] reorder attributes depending on values
     - [x] reduce `attrNames`, `genAttrs`, `let`
     - [x] replace `with` by `inherit`
     - [x] standardise pipes and attrs merges
