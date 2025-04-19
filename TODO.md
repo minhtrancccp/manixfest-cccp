@@ -138,7 +138,9 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
 - [x] nix-tree
     - [x] replace `defaultPackage`
 - [x] sops
+    - [x] auto detect available secrets
     - [x] support `atuin` credentials
+    - [x] update referencing comments
 
 ## resources
 - https://en.wikipedia.org/wiki/ASCII#Character_set
