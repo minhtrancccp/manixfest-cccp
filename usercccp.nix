@@ -617,7 +617,11 @@ in
   xdg = {
     enable = true;
 
-    configFile."ov/config.yaml".source = # https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/ov-less.yaml
+    configFile."ov/config.yaml".source =
+      /*
+        https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/ov-less.yaml
+        https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/oviewer/config.go
+      */
       toYAML (
         {
           General =
@@ -838,8 +842,17 @@ in
             write_exit = [ "Q" ];
           };
 
-          Mode.markdown.SectionDelimiter = "^#";
-          Mode.markdown.Style.SectionLine.Background = "blue";
+          Mode = {
+            ini = {
+              Align = true;
+              ColumnDelimiter = " = ";
+              ColumnMode = true;
+              WrapMode = false;
+            };
+
+            markdown.SectionDelimiter = "^#";
+            markdown.Style.SectionLine.Background = "blue";
+          };
         }
         // trueGenAttrs [
           "Incsearch"
