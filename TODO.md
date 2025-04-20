@@ -123,7 +123,6 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
 - [x] batman
     - [x] add env vars
 - [x] dotfiles
-    - [x] add configs for ov
     - [x] remove obsolete dir
 - [x] kanata
     - [x] add home row mods
@@ -138,6 +137,8 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] remove from usage
 - [x] nix-tree
     - [x] replace `defaultPackage`
+- [x] ov
+    - [x] add `ini` mode
 - [x] sops
     - [x] auto detect available secrets
     - [x] support `atuin` credentials
