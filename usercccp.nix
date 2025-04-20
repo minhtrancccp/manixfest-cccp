@@ -162,7 +162,6 @@ in
           ghorg
           github-desktop
           glab
-          glow
           hut
           hyperfine
           inetutils
@@ -618,255 +617,243 @@ in
   xdg = {
     enable = true;
 
-    configFile = {
-      "glow/glow.yml".source = # https://github.com/charmbracelet/glow/blob/7154552fa0e9acb2b27a2e11c64593125ec41b2d/main.go#L380-L390
-        [
-          "line-numbers"
-          "mouse"
-          "pager"
+    configFile."ov/config.yaml".source = # https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/ov-less.yaml
+      toYAML (
+        {
+          General =
+            {
+              ColumnDelimiter = ",";
+              Header = 0;
+              MarkStyleWidth = 1;
+              TabWidth = 4;
+              WrapMode = true;
+
+              Style = deepMergeAttrs [
+                {
+                  ColumnRainbow = lib.map (value: { Foreground = value; }) [
+                    "white"
+                    "crimson"
+                    "aqua"
+                    "lightsalmon"
+                    "lime"
+                    "blue"
+                    "yellowgreen"
+                  ];
+                  MultiColorHighlight = lib.map (value: { Foreground = value; }) [
+                    "red"
+                    "aqua"
+                    "yellow"
+                    "fuchsia"
+                    "lime"
+                    "blue"
+                    "grey"
+                  ];
+
+                  ColumnHighlight.Reverse = true;
+
+                  JumpTargetLine.Underline = true;
+
+                  OverLine.Underline = true;
+
+                  Ruler.Foreground = "#CCCCCC";
+
+                  SearchHighlight.Reverse = true;
+                }
+
+                (quickGenAttrs { Bold = true; } [
+                  "Header"
+                  "LineNumber"
+                  "OverStrike"
+                  "Ruler"
+                ])
+
+                (genericMapAttrs (value: { Background = value; }) {
+                  Alternate = "gray";
+                  MarkLine = "darkgoldenrod";
+                  Ruler = "#333333";
+                  SectionLine = "slateblue";
+                  VerticalHeaderBorder = "#c0c0c0";
+                })
+              ];
+            }
+            // falseGenAttrs [
+              "AlternateRows"
+              "ColumnMode"
+              "LineNumMode"
+            ];
+
+          KeyBind = {
+            align_format = [ "ctrl+alt+f" ];
+            alter_rows_mode = [ "C" ];
+            backsearch = [ "?" ];
+            begin_left = [ "shift+Home" ];
+            bottom = [
+              "End"
+              ">"
+              "G"
+            ];
+            cancel = [ "ctrl+c" ];
+            close_all_filter = [ "ctrl+alt+k" ];
+            close_doc = [ "alt+k" ];
+            close_file = [
+              "ctrl+F9"
+              "ctrl+alt+s"
+            ];
+            column_mode = [ "c" ];
+            column_width = [ "alt+o" ];
+            convert_type = [ "ctrl+alt+t" ];
+            delimiter = [ "F8" ];
+            down = [
+              "e"
+              "ctrl+e"
+              "j"
+              "J"
+              "ctrl+j"
+              "Enter"
+              "Down"
+            ];
+            end_right = [ "shift+End" ];
+            exit = [
+              "Escape"
+              "q"
+            ];
+            filter = [ "&" ];
+            fixed_column = [ "alt+f" ];
+            follow_all = [ "ctrl+a" ];
+            follow_mode = [ "F" ];
+            follow_section = [ "F2" ];
+            goto = [ ":" ];
+            half_left = [ "ctrl+left" ];
+            half_right = [ "ctrl+right" ];
+            header = [ "H" ];
+            header_column = [ "ctrl+alt+d" ];
+            help = [
+              "h"
+              "ctrl+alt+c"
+            ];
+            hide_other = [ "alt+-" ];
+            input_casesensitive = [ "alt+c" ];
+            input_copy = [ "ctrl+c" ];
+            input_incsearch = [ "alt+i" ];
+            input_next = [ "Down" ];
+            input_non_match = [ "!" ];
+            input_paste = [ "ctrl+v" ];
+            input_previous = [ "Up" ];
+            input_regexp_search = [ "alt+r" ];
+            input_smart_casesensitive = [ "alt+s" ];
+            jump_target = [ "alt+j" ];
+            last_section = [ "9" ];
+            left = [ "left" ];
+            line_number_mode = [ "alt+n" ];
+            logdoc = [ "ctrl+alt+e" ];
+            mark = [ "m" ];
+            multi_color = [ "." ];
+            next_backsearch = [ "N" ];
+            next_doc = [ "]" ];
+            next_mark = [ "alt+>" ];
+            next_search = [ "n" ];
+            next_section = [ "space" ];
+            page_down = [
+              "PageDown"
+              "ctrl+v"
+              "alt+space"
+              "f"
+              "z"
+            ];
+            page_half_down = [
+              "d"
+              "ctrl+d"
+            ];
+            page_half_up = [
+              "u"
+              "ctrl+u"
+            ];
+            page_up = [
+              "PageUp"
+              "b"
+              "alt+v"
+            ];
+            plain_mode = [ "ctrl+F7" ];
+            previous_doc = [ "[" ];
+            previous_mark = [ "alt+<" ];
+            previous_section = [ "^" ];
+            rainbow_mode = [ "ctrl+F4" ];
+            raw_format = [ "ctrl+alt+g" ];
+            reload = [
+              "R"
+              "ctrl+r"
+            ];
+            remove_all_mark = [ "ctrl+delete" ];
+            remove_mark = [ "M" ];
+            right = [ "right" ];
+            save_buffer = [ "s" ];
+            search = [ "/" ];
+            section_delimiter = [ "alt+d" ];
+            section_header_num = [ "F7" ];
+            section_start = [
+              "ctrl+F3"
+              "alt+s"
+            ];
+            set_view_mode = [
+              "p"
+              "P"
+            ];
+            set_write_exit = [ "ctrl+q" ];
+            shrink_column = [ "alt+x" ];
+            skip_lines = [ "ctrl+s" ];
+            suspend = [ "ctrl+z" ];
+            sync = [
+              "r"
+              "ctrl+l"
+            ];
+            tabwidth = [ "t" ];
+            toggle_mouse = [ "ctrl+alt+r" ];
+            toggle_ruler = [ "alt+shift+F9" ];
+            top = [
+              "Home"
+              "g"
+              "<"
+            ];
+            up = [
+              "y"
+              "Y"
+              "ctrl+y"
+              "k"
+              "K"
+              "ctrl+K"
+              "Up"
+            ];
+            vertical_header = [ "ctrl+alt+b" ];
+            watch = [
+              "T"
+              "ctrl+alt+w"
+            ];
+            watch_interval = [ "ctrl+w" ];
+            width_left = [ "ctrl+shift+left" ];
+            width_right = [ "ctrl+shift+right" ];
+            wrap_mode = [
+              "w"
+              "W"
+            ];
+            write_exit = [ "Q" ];
+          };
+
+          Mode.markdown.SectionDelimiter = "^#";
+          Mode.markdown.Style.SectionLine.Background = "blue";
+        }
+        // trueGenAttrs [
+          "Incsearch"
+          "QuitSmall"
+          "RegexpSearch"
+          "SmartCaseSensitive"
         ]
-        |> trueGenAttrs
-        |> toYAML;
-
-      "ov/config.yaml".source = # https://github.com/noborus/ov/blob/c48b4ec8574e6714f6efaaf0ca5d199eb7e0f98d/ov-less.yaml
-        toYAML (
-          {
-            General =
-              {
-                ColumnDelimiter = ",";
-                Header = 0;
-                MarkStyleWidth = 1;
-                TabWidth = 4;
-                WrapMode = true;
-
-                Style = deepMergeAttrs [
-                  {
-                    ColumnRainbow = lib.map (value: { Foreground = value; }) [
-                      "white"
-                      "crimson"
-                      "aqua"
-                      "lightsalmon"
-                      "lime"
-                      "blue"
-                      "yellowgreen"
-                    ];
-                    MultiColorHighlight = lib.map (value: { Foreground = value; }) [
-                      "red"
-                      "aqua"
-                      "yellow"
-                      "fuchsia"
-                      "lime"
-                      "blue"
-                      "grey"
-                    ];
-
-                    ColumnHighlight.Reverse = true;
-
-                    JumpTargetLine.Underline = true;
-
-                    OverLine.Underline = true;
-
-                    Ruler.Foreground = "#CCCCCC";
-
-                    SearchHighlight.Reverse = true;
-                  }
-
-                  (quickGenAttrs { Bold = true; } [
-                    "Header"
-                    "LineNumber"
-                    "OverStrike"
-                    "Ruler"
-                  ])
-
-                  (genericMapAttrs (value: { Background = value; }) {
-                    Alternate = "gray";
-                    MarkLine = "darkgoldenrod";
-                    Ruler = "#333333";
-                    SectionLine = "slateblue";
-                    VerticalHeaderBorder = "#c0c0c0";
-                  })
-                ];
-              }
-              // falseGenAttrs [
-                "AlternateRows"
-                "ColumnMode"
-                "LineNumMode"
-              ];
-
-            KeyBind = {
-              align_format = [ "ctrl+alt+f" ];
-              alter_rows_mode = [ "C" ];
-              backsearch = [ "?" ];
-              begin_left = [ "shift+Home" ];
-              bottom = [
-                "End"
-                ">"
-                "G"
-              ];
-              cancel = [ "ctrl+c" ];
-              close_all_filter = [ "ctrl+alt+k" ];
-              close_doc = [ "alt+k" ];
-              close_file = [
-                "ctrl+F9"
-                "ctrl+alt+s"
-              ];
-              column_mode = [ "c" ];
-              column_width = [ "alt+o" ];
-              convert_type = [ "ctrl+alt+t" ];
-              delimiter = [ "F8" ];
-              down = [
-                "e"
-                "ctrl+e"
-                "j"
-                "J"
-                "ctrl+j"
-                "Enter"
-                "Down"
-              ];
-              end_right = [ "shift+End" ];
-              exit = [
-                "Escape"
-                "q"
-              ];
-              filter = [ "&" ];
-              fixed_column = [ "alt+f" ];
-              follow_all = [ "ctrl+a" ];
-              follow_mode = [ "F" ];
-              follow_section = [ "F2" ];
-              goto = [ ":" ];
-              half_left = [ "ctrl+left" ];
-              half_right = [ "ctrl+right" ];
-              header = [ "H" ];
-              header_column = [ "ctrl+alt+d" ];
-              help = [
-                "h"
-                "ctrl+alt+c"
-              ];
-              hide_other = [ "alt+-" ];
-              input_casesensitive = [ "alt+c" ];
-              input_copy = [ "ctrl+c" ];
-              input_incsearch = [ "alt+i" ];
-              input_next = [ "Down" ];
-              input_non_match = [ "!" ];
-              input_paste = [ "ctrl+v" ];
-              input_previous = [ "Up" ];
-              input_regexp_search = [ "alt+r" ];
-              input_smart_casesensitive = [ "alt+s" ];
-              jump_target = [ "alt+j" ];
-              last_section = [ "9" ];
-              left = [ "left" ];
-              line_number_mode = [ "alt+n" ];
-              logdoc = [ "ctrl+alt+e" ];
-              mark = [ "m" ];
-              multi_color = [ "." ];
-              next_backsearch = [ "N" ];
-              next_doc = [ "]" ];
-              next_mark = [ "alt+>" ];
-              next_search = [ "n" ];
-              next_section = [ "space" ];
-              page_down = [
-                "PageDown"
-                "ctrl+v"
-                "alt+space"
-                "f"
-                "z"
-              ];
-              page_half_down = [
-                "d"
-                "ctrl+d"
-              ];
-              page_half_up = [
-                "u"
-                "ctrl+u"
-              ];
-              page_up = [
-                "PageUp"
-                "b"
-                "alt+v"
-              ];
-              plain_mode = [ "ctrl+F7" ];
-              previous_doc = [ "[" ];
-              previous_mark = [ "alt+<" ];
-              previous_section = [ "^" ];
-              rainbow_mode = [ "ctrl+F4" ];
-              raw_format = [ "ctrl+alt+g" ];
-              reload = [
-                "R"
-                "ctrl+r"
-              ];
-              remove_all_mark = [ "ctrl+delete" ];
-              remove_mark = [ "M" ];
-              right = [ "right" ];
-              save_buffer = [ "s" ];
-              search = [ "/" ];
-              section_delimiter = [ "alt+d" ];
-              section_header_num = [ "F7" ];
-              section_start = [
-                "ctrl+F3"
-                "alt+s"
-              ];
-              set_view_mode = [
-                "p"
-                "P"
-              ];
-              set_write_exit = [ "ctrl+q" ];
-              shrink_column = [ "alt+x" ];
-              skip_lines = [ "ctrl+s" ];
-              suspend = [ "ctrl+z" ];
-              sync = [
-                "r"
-                "ctrl+l"
-              ];
-              tabwidth = [ "t" ];
-              toggle_mouse = [ "ctrl+alt+r" ];
-              toggle_ruler = [ "alt+shift+F9" ];
-              top = [
-                "Home"
-                "g"
-                "<"
-              ];
-              up = [
-                "y"
-                "Y"
-                "ctrl+y"
-                "k"
-                "K"
-                "ctrl+K"
-                "Up"
-              ];
-              vertical_header = [ "ctrl+alt+b" ];
-              watch = [
-                "T"
-                "ctrl+alt+w"
-              ];
-              watch_interval = [ "ctrl+w" ];
-              width_left = [ "ctrl+shift+left" ];
-              width_right = [ "ctrl+shift+right" ];
-              wrap_mode = [
-                "w"
-                "W"
-              ];
-              write_exit = [ "Q" ];
-            };
-
-            Mode.markdown.SectionDelimiter = "^#";
-            Mode.markdown.Style.SectionLine.Background = "blue";
-          }
-          // trueGenAttrs [
-            "Incsearch"
-            "QuitSmall"
-            "RegexpSearch"
-            "SmartCaseSensitive"
-          ]
-        );
-
-      shellcheckrc.text =
-        /*
-          https://github.com/koalaman/shellcheck/issues/2355
-          https://www.shellcheck.net/wiki/Directive
-        */
-        "external-sources=true";
-    };
+      );
+    configFile.shellcheckrc.text =
+      /*
+        https://github.com/koalaman/shellcheck/issues/2355
+        https://www.shellcheck.net/wiki/Directive
+      */
+      "external-sources=true";
 
     mimeApps.enable = true; # Whether to manage $XDG_CONFIG_HOME/mimeapps.list.
     mimeApps.defaultApplications =
