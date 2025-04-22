@@ -192,7 +192,6 @@ in
           vhs
           vieb
           vlc
-          wikiman
           wl-clipboard-rs
           yamllint
           yq-go
