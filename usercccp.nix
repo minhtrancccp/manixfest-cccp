@@ -531,21 +531,7 @@ in
 
       nix-index-database.comma.enable = true;
 
-      plasma = {
-        configFile.kwinrc.Xwayland.Scale.value = 1;
-        configFile.kwinrc.Xwayland.Scale.immutable = true;
-
-        kwin.nightLight = {
-          enable = true;
-
-          mode = "location";
-
-          location.latitude = "20.865139"; # https://geohack.toolforge.org/geohack.php?pagename=Haiphong&params=20_51_54.5_N_106_41_01.8_E_region:VN_type:city(2310280)
-          location.longitude = "106.683833";
-        };
-
-        workspace.lookAndFeel = "org.kde.breezedark.desktop"; # https://develop.kde.org/docs/plasma/
-      };
+      plasma.workspace.lookAndFeel = "org.kde.breezedark.desktop"; # https://develop.kde.org/docs/plasma/
 
       ripgrep.arguments = [ "-S" ];
 
