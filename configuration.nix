@@ -260,6 +260,10 @@ in
       displayManager.sddm.enable = true;
       displayManager.sddm.wayland.enable = true;
 
+      # https://github.com/NixOS/nixpkgs/pull/391845/files#diff-baa8a52e693ad2787690e2e16f2780581b75da71a6764869aeb1fb00f013dee3
+      geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+      geoclue2.submissionUrl = "https://api.beacondb.net/v2/geosubmit";
+
       kanata.keyboards.${hostName}.configFile = ./auxiliary/${hostName}.kbd;
 
       pipewire = # https://wiki.archlinux.org/title/PipeWire
@@ -278,6 +282,7 @@ in
         cloudflare-warp
         earlyoom # https://old.reddit.com/r/NixOS/comments/10o0sdp/computer_hangs_when_all_ram_is_used/
         fwupd
+        geoclue2
         kanata
         pipewire
         printing
