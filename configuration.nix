@@ -91,8 +91,6 @@ in
     etc.nixos.source = ./.;
 
     plasma6.excludePackages = lib.attrValues { inherit (pkgs.kdePackages) kate; }; # https://github.com/NixOS/nixpkgs/blob/b6eaf97c6960d97350c584de1b6dcff03c9daf42/nixos/modules/services/desktop-managers/plasma6.nix#L157-L180
-
-    variables.NH_FLAKE = "/coding/nix/manixfest-cccp";
   };
 
   fonts.enableDefaultPackages = true;
@@ -222,8 +220,13 @@ in
 
       mtr.package = pkgs.mtr-gui;
 
-      nh.package = flakeDefaultPackage inputs.nh;
-      nh.clean.enable = true;
+      nh = {
+        package = flakeDefaultPackage inputs.nh;
+
+        flake = "/coding/nix/manixfest-cccp";
+
+        clean.enable = true;
+      };
 
       steam.dedicatedServer.openFirewall = true;
       steam.remotePlay.openFirewall = true;
