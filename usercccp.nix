@@ -165,6 +165,7 @@ in
           hut
           hyperfine
           inetutils
+          jqfmt
           lolcat
           lsb-release
           markdownlint-cli2
