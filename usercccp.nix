@@ -597,7 +597,8 @@ in
     enable = true;
 
     enableSshSupport = true; # https://wiki.gentoo.org/wiki/GnuPG#From_v2.3.7
-    pinentryPackage = pkgs.pinentry-qt; # https://github.com/nix-community/home-manager/issues/908
+
+    pinentry.package = pkgs.pinentry-qt; # https://github.com/nix-community/home-manager/issues/908
   };
 
   xdg = {
