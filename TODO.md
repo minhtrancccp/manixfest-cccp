@@ -117,13 +117,12 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] prepare `firefox-addons-nix`
     - [x] reorder attributes depending on values
     - [x] reduce `attrNames`, `genAttrs`, `let`
+    - [x] remove obsolete dotfiles dir
     - [x] replace `with` by `inherit`
     - [x] standardise pipes and attrs merges
     - [x] update username and multiline comment style
 - [x] batman
     - [x] add env vars
-- [x] dotfiles
-    - [x] remove obsolete dir
 - [x] kanata
     - [x] add home row mods
 - [x] kernel
