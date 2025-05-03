@@ -107,7 +107,7 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] night light
     - [x] `kwinrc.Xwayland.Scale`
 - [x] REFACTORING
-    - [x] add `editor` and `pager` env var in userspace
+    - [x] add `EDITOR`, `VISUAL` and `PAGER` env vars
     - [x] add `mergeAttrs` as a partial substitue of `lib.modules.mkMerge` for non-modules attrs
     - [x] add `toYAML` for generating config files
     - [x] add `nativeMessagingHosts`
