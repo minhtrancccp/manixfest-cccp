@@ -35,7 +35,6 @@
       sops-nix.url = "github:mic92/sops-nix";
       statix.url = "github:oppiliappan/statix";
       xdg-ninja.url = "github:b3nj5m1n/xdg-ninja";
-      xhmm.url = "path:/coding/nix/xhmm"; # https://github.com/schuelermine/xhmm/pull/5
       yazi.url = "github:sxyazi/yazi";
     };
 

@@ -145,7 +145,6 @@ let
 in
 {
   home = {
-    editor = "vim";
     homeDirectory = "/home/${admin}";
     packages =
       lib.attrValues {
@@ -172,6 +171,7 @@ in
           marktext
           mozlz4a
           nix-derivation
+          ov
           play
           protonvpn-gui
           pup
@@ -226,14 +226,11 @@ in
     preferXdgDirectories = true;
     stateVersion = trivial.release;
     username = admin;
-    visualEditor = config.home.editor;
-
-    pager.executable = meta.getExe config.home.pager.package;
-    pager.package = pkgs.ov;
 
     sessionVariables = {
       MANPAGER = "${meta.getExe' pkgs.coreutils-full "env"} BATMAN_IS_BEING_MANPAGER=yes ${meta.getExe' pkgs.bat-extras.batman ".batman-wrapped"}"; # https://github.com/eth-p/bat-extras/blob/aef5a424b4b788eb6b8b2427dadb1376767b6535/src/batman.sh#L70
       MANROFFOPT = "-c"; # https://man.archlinux.org/man/groff.1.en#c
+      PAGER = meta.getExe pkgs.ov;
       SYSTEMD_PAGERSECURE = trivial.boolToString true; # https://unix.stackexchange.com/questions/730518/systemd-journalctl-unable-to-change-default-pager
     };
   };
