@@ -73,7 +73,11 @@ let
           wikipedia.metaData.alias = "@wk";
         };
 
-        settings = # https://wiki.archlinux.org/title/Firefox
+        settings =
+          /*
+            https://kb.mozillazine.org/About:config
+            https://wiki.archlinux.org/title/Firefox
+          */
           modules.mkMerge [
             { "intl.accept_languages" = "en-gb"; }
 
