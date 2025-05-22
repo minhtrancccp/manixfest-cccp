@@ -136,7 +136,6 @@ in
   nix = # https://github.com/NuschtOS/nixos-modules/blob/f8b6e1d4ea6c9c958b27445c70434b00e8d7f520/modules/nix.nix
     {
       deleteChannels = true;
-      diffSystem = true;
       extraOptions = "!include ${config.sops.secrets.nix_cccp_pat.path}";
 
       channel.enable = false;
