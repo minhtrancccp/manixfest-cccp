@@ -161,6 +161,7 @@ in
           element-desktop
           ffmpeg
           file
+          fq
           gettext
           ghorg
           github-desktop
