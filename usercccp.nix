@@ -871,6 +871,7 @@ in
         )
         {
           application = {
+            json = browserDesktopEntryRoots;
             x-extension-htm = browserDesktopEntryRoots;
             x-extension-html = browserDesktopEntryRoots;
             x-extension-shtml = browserDesktopEntryRoots;
