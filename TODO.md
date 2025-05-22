@@ -125,6 +125,7 @@ see [here](https://github.com/todomd/todo.md/blob/0bc8c741496b266e8a3dc7dc1706ab
     - [x] add env vars
 - [x] kanata
     - [x] add home row mods
+    - [x] switch key for `caps lock`
 - [x] kernel
     - [x] use latest version
 - [x] mime

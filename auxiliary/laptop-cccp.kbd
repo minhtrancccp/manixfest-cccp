@@ -7,6 +7,7 @@
 (defsrc
 	;; https://github.com/jtroo/kanata/blob/f153fd0c549befada4f0c544b8e5bba4c2d010ad/parser/src/keys/mod.rs#L164-L373
 	;; https://github.com/jtroo/kanata/discussions/686
+	esc
 	caps	a	s	d	f	j	k	l	scln
 )
 
@@ -16,6 +17,7 @@
 )
 
 (defalias
+	esc (tap-hold $tap-time $hold-time esc caps)
 	caps (tap-hold $tap-time $hold-time esc ctl)
 	a (tap-hold $tap-time $hold-time a met)
 	s (tap-hold $tap-time $hold-time s alt)
@@ -28,6 +30,7 @@
 )
 
 (deflayer base
+	@esc
 	@caps	@a	@s	@d	@f	@j	@k	@l	@scln
 )
 
