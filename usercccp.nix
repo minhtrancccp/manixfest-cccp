@@ -48,6 +48,47 @@ let
     |> trivial.const
     |> lib.zipAttrsWith;
 
+  mediaWikiUrlGen =
+    /*
+      https://${urlPath}/opensearch_desc.php
+      https://www.mediawiki.org/wiki/API:Opensearch
+      https://www.mediawiki.org/wiki/Help:Namespaces
+    */
+    urlPath: [
+      {
+        params = attrsets.mapAttrsToList attrsets.nameValuePair { search = "{searchTerms}"; };
+        template = "https://${urlPath}/index.php";
+      }
+      {
+        params = attrsets.mapAttrsToList attrsets.nameValuePair {
+          action = "opensearch";
+          formatversion = "latest";
+          limit =
+            builtins.toString
+              config.programs.firefox.profiles.${admin}.settings."browser.urlbar.maxRichResults";
+          search = "{searchTerms}";
+        };
+        template = "https://${urlPath}/api.php";
+        type = "application/x-suggestions+json";
+      }
+    ];
+
+  googleCompleteUrlGen = # https://www.fullstackoptimization.com/a/google-autocomplete-google-suggest-unofficial-full-specification
+    addtionalAttrs: {
+      params = attrsets.mapAttrsToList attrsets.nameValuePair (
+        {
+          client = "firefox";
+          gl = "GB";
+          q = "{searchTerms}";
+        }
+        // addtionalAttrs
+      );
+      template = "https://www.google.com/complete/search";
+      type = "application/x-suggestions+json";
+    };
+
+  simpleIconGen = iconSlug: "https://cdn.simpleicons.org/${iconSlug}?viewbox=auto";
+
   extendFirefoxProfile =
     extraProfileConfig:
     modules.mkMerge [
@@ -62,15 +103,6 @@ let
             tunnelbear-vpn-firefox
             ublock-origin
             ;
-        };
-
-        search.force = true;
-        search.engines = {
-          bing.metaData.hidden = true;
-
-          ddg.metaData.hidden = true;
-
-          wikipedia.metaData.alias = "@wk";
         };
 
         settings =
@@ -347,14 +379,151 @@ in
               icon = "fingerprint";
             };
 
-            search.order = [ ]; # Any engines that aren’t included in this list will be listed after these in an unspecified order.
-            search.engines = {
-              "NixOS Wiki" = {
-                definedAliases = [ "@nw" ];
-                icon = "https://wiki.nixos.org/favicon.ico";
-                urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+            search.force = true;
+            search.engines =
+              /*
+                https://developer.mozilla.org/en-US/docs/Web/XML/Guides/OpenSearch
+                https://firefox-source-docs.mozilla.org/browser/search/application-search-engines.html#icon-requirements
+                https://firefox-source-docs.mozilla.org/rust-components/api/js/search.html
+                https://firefox-source-docs.mozilla.org/toolkit/search/index.html
+                https://mycroftproject.com/dlstats.html
+              */
+              {
+                bing.metaData.hidden = true;
+
+                ddg.metaData.hidden = true;
+
+                wikipedia.metaData.alias = "@w";
+
+                archwiki = {
+                  definedAliases = [ "@a" ];
+                  name = "ArchWiki";
+                  urls = mediaWikiUrlGen "wiki.archlinux.org";
+
+                  iconMapObj."192" = simpleIconGen "archlinux";
+                };
+
+                explain-xkcd = {
+                  definedAliases = [ "@e" ];
+                  name = "explain xkcd";
+                  urls = mediaWikiUrlGen "www.explainxkcd.com/wiki";
+
+                  iconMapObj."192" = "https://www.explainxkcd.com/wiki/images/6/6d/BlackHat_head.png";
+                };
+
+                gentoo-wiki = {
+                  definedAliases = [ "@gw" ];
+                  name = "Gentoo Wiki";
+                  urls = mediaWikiUrlGen "wiki.gentoo.org";
+
+                  iconMapObj."192" = simpleIconGen "gentoo";
+                };
+
+                gitlab = # https://gitlab.com/search/opensearch.xml
+                  {
+                    definedAliases = [ "@gl" ];
+                    name = "GitLab";
+                    urls = [
+                      (googleCompleteUrlGen { })
+
+                      {
+                        params = attrsets.mapAttrsToList attrsets.nameValuePair { search = "{searchTerms}"; };
+                        template = "https://gitlab.com/search";
+                      }
+                    ];
+
+                    iconMapObj."192" = simpleIconGen "gitlab";
+                  };
+
+                nixos-wiki = {
+                  definedAliases = [ "@nw" ];
+                  name = "NixOS Wiki";
+                  urls = mediaWikiUrlGen "wiki.nixos.org/w";
+
+                  iconMapObj."192" = simpleIconGen "nixos";
+                };
+
+                noogle = # https://noogle.dev/search.xml
+                  {
+                    definedAliases = [ "@ng" ];
+                    name = "Noogle";
+                    urls = [
+                      {
+                        params = attrsets.mapAttrsToList attrsets.nameValuePair {
+                          limit = "2000"; # https://noogle.dev/q
+                          term = "{searchTerms}";
+                        };
+                        template = "https://noogle.dev/q";
+                      }
+                    ];
+
+                    iconMapObj."192" = simpleIconGen "nixos";
+                  };
+
+                simple-icons = # https://github.com/simple-icons/simple-icons-website-rs/blob/487a4a6beba9d61c805966876fd577514a4f000c/app/public/assets/opensearch.xml
+                  {
+                    definedAliases = [ "@si" ];
+                    name = "Simple Icons";
+                    urls = [
+                      (googleCompleteUrlGen { })
+
+                      {
+                        params = attrsets.mapAttrsToList attrsets.nameValuePair { q = "{searchTerms}"; };
+                        template = "https://simpleicons.org/";
+                      }
+                    ];
+
+                    iconMapObj."192" = simpleIconGen "simpleicons";
+                  };
+
+                youtube = # https://mycroftproject.com/installos.php/13110/youtube.xml
+                  {
+                    definedAliases = [ "@y" ];
+                    name = "YouTube";
+                    urls = [
+                      (googleCompleteUrlGen { ds = "yt"; })
+
+                      {
+                        params = attrsets.mapAttrsToList attrsets.nameValuePair { search_query = "{searchTerms}"; };
+                        template = "https://www.youtube.com/results";
+                      }
+                    ];
+
+                    iconMapObj."192" = simpleIconGen "youtube";
+                  };
+
+                youtube-music = # https://music.youtube.com/opensearch
+                  {
+                    definedAliases = [ "@ym" ];
+                    name = "YouTube Music";
+                    urls = [
+                      (googleCompleteUrlGen { ds = "yt"; })
+
+                      {
+                        params = attrsets.mapAttrsToList attrsets.nameValuePair { q = "{searchTerms}"; };
+                        template = "https://music.youtube.com/search";
+                      }
+                    ];
+
+                    iconMapObj."192" = simpleIconGen "youtubemusic";
+                  };
+
+                youtube-region-restriction-checker = {
+                  definedAliases = [ "@yr" ];
+                  name = "YouTube region restriction checker";
+                  urls = [
+                    {
+                      params = attrsets.mapAttrsToList attrsets.nameValuePair {
+                        agreed = "on";
+                        ytid = "{searchTerms}";
+                      };
+                      template = "https://polsy.org.uk/stuff/ytrestrict.cgi";
+                    }
+                  ];
+
+                  iconMapObj."192" = simpleIconGen "youtube";
+                };
               };
-            };
 
             settings = modules.mkMerge [
               {
