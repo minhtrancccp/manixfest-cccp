@@ -360,6 +360,7 @@ in
               {
                 "browser.newtabpage.activity-stream.topSitesRows" = 4;
                 "browser.startup.page" = 3;
+                "browser.urlbar.maxRichResults" = 20;
               }
 
               (falseGenAttrs [
